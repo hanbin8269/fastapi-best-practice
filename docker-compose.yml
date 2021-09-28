@@ -1,0 +1,16 @@
+version: "2.1"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./compose/develop/Dockerfile-dev
+    volumes:
+      - ./:/app/
+    entrypoint: /bin/sh "scripts/start.sh"
+    container_name: api_container
+    env_file:
+      - dev.env
+    restart: always
+    ports:
+      - "3052:3052"
