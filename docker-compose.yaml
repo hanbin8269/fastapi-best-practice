@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo:4.2
+    restart: always
+    ports:
+      - "27016:27017"
+    container_name: "mongo-container"
+    env_file:
+      - dev.env
+
+  api:
+    build:
+      context: .
+      dockerfile: src/user_access/Dockerfile
+    volumes:
+      - ./:/app/
+    entrypoint: /bin/sh "scripts/start.sh"
+    container_name: api_container
+    env_file:
+      - dev.env
+    restart: always
+    ports:
+      - "3052:3052"
+    depends_on:
+      - mongo
